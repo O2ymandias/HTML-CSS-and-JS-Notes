@@ -1,0 +1,2292 @@
+/* * ======================-CSS-====================== */
+
+/* * Styling Intro */
+/*
+    - The sequence of stylesheets matters in HTML because styles are applied in the order they are loaded. The later a stylesheet is loaded, the more priority it has, meaning it can overwrite earlier styles due to cascading in CSS.
+
+    * Example
+        If the internal <style></style> block appears first in the <head>, and then a linked external stylesheet is added later using <link rel="stylesheet" href="styles.css" />, the external stylesheet can override the internal styles.
+
+    - Inline styles are the most specified, meaning they will override those of the internal/external styles
+
+    - The difference between id & class
+        1. id
+            - MUST be unique
+            - Accessed: #my-id
+            - Linked to anchor tag
+                <a href="#my-id">
+
+        2. class
+            - NOT unique
+            - Accessed: .my-class
+            - More Specific for styling
+
+        ? html element can take more than one class BUT only 1 id
+*/
+
+/* * Image Behavior */
+/*
+    * Is Img Inline || Block || Inline-Block ?
+        An <img> is a "replaced" element (The content's dimensions are often determined by the external resource) NOT html document
+        Even though it’s inline by default, it behaves like inline-block since it respects width/height.
+
+        - <input /> is also replaced element, depends on the type
+
+    * What is the gap or extra space below image? 
+        - By default, an image is rendered inline, like a letter so it sits on the same line that a, b, c and d sit on.
+        - Some letters, like g, j, p, and q, have descenders, which extend below the baseline of the text.
+
+        To fix:
+            1. display: block;
+                ? The problem was "inline", so we change it to "block"
+            ||
+            2. vertical-align: middle || top || bottom
+                ? Since browsers compute the vertical-align property of inline elements to baseline by default
+
+                ?By changing it to top, middle, or bottom, you can control how the image aligns with the text, removing or reducing the space.
+
+*/
+
+/* * Background */
+/*  
+    * background-color
+        background-color: red;
+        background-color: rgb(0 0 0/ 25%);
+        background-color: rgba(0 0 0, 0.25); => Alpha Channel
+        background-color: #ff0000; => Color Hex Code
+
+    ===========================================================
+    
+    * background-image: url("../Images/R.png");
+        ? background-repeat
+            repeat [Default] (repeat-x  repeat-y)
+            no-repeat
+            repeat-x
+            repeat-y
+            round
+                If the container size isn’t an EXACT multiple of the image size
+                    The image is scaled slightly to fill the container, so there is no gaps or partial images.
+
+            space
+                If the container size isn’t an EXACT multiple of the image size
+                    An extra space is added between the repeated images to fill the container.
+
+        ? background-attachment
+            scroll [Default]
+                To scroll the background image with the viewport, but NOT with the container.
+
+            local
+                To scroll the background image with the container and the viewport.
+
+            fixed
+                To fix the background image relative to the viewport.
+
+        ? background-position
+            center center;
+            50px 50px;
+            50px
+                x: 50px
+                y: 50% === (Element Height - Image Height) * 50%
+
+        ? background-size
+            auto [Default]
+                The background image is displayed on its original size
+
+            cover "Covers the entire element"
+                - Preserve Ratios
+                - The image may stretch or shrink "preserving the ratios" to COVER the entire element
+                - Some parts of the image might be cropped
+
+            contain "Contains the images"
+                - Preserve Ratios
+                - The entire image will be VISIBLE, and there may be empty space around it || repeating the image if background-repeat is set to "repeat".
+
+            50% [Width] 50% [Height];
+            100px [Width] 50px [Height];
+
+
+            ? We can use more than background image
+                background-image: url("../Images/R.png"), url("../Images/R.png");
+                background-repeat: no-repeat
+                    ? Both "no-repeat"
+
+                background-repeat: repeat, no-repeat
+                    ? 1st => "repeat" .. 2nd => "no-repeat"
+
+
+        ? background-origin
+            Controls how an element's background image is positioned relative to borders, padding, and content.
+
+            border-box:
+                The background is positioned relative to the border box.
+
+            padding-box:
+                The background is positioned relative to the padding box.
+
+            content-box:
+                The background is positioned relative to the content box.
+
+            ! NOTE
+                background-origin is ignored when background-attachment is fixed
+
+    ===========================================================
+
+    * background-clip
+        To control the bounding box of the background.
+
+        ? border-box (default):
+            The background extends underneath the border.
+
+        ? padding-box:
+            The background extends only to the edge of the padding, but not underneath the border.
+
+        ? content-box:
+            The background is clipped to the edge of the content, excluding padding and border.
+
+        ? text:
+            The background is cropped to match the shape of the text.
+            Useful for effects where you want a background image to be visible through the text.
+
+    ===========================================================
+
+*/
+
+/* * Spacing */
+/*
+    [1] Padding
+        padding: 10px; (10px 10px 10px 10px)
+        padding: 10px 20px; (10px 20px 10px 20px)
+        padding: 10px 20px 30px; (10px 20px 30px 20px)
+        padding-bottom: 10px; (0 0 10px 0)
+
+        padding affects the width of the element
+        padding: auto; -> has no effect
+
+        Logical Properties
+            padding-inline
+                padding-inline-start -> padding-left (Direction LTR)   
+                padding-inline-end -> padding-right (Direction LTR)
+
+            padding-block
+                padding-block-start -> padding-top
+                padding-block-end -> padding-bottom
+
+    [2] Margin
+        Accepts Negative Values
+            margin: -10px 
+
+        margin-left: auto; -> Distribute the available space on the left
+
+        margin: 0 auto; -> Distribute the available space equally on both sides (centering the element).
+
+        margin-top 10%; -> [NOT recommended] 10% of the parent width !!
+        
+        margin: auto; -> only apply to left & right margins
+            
+        text-align: center;
+            This centers text, inline, inline-block, and inline-table elements horizontally within their parent container.
+                If the div has <p> (block-element), it doesn't centralize the <p> itself, BUT the text inside it
+
+        Logical Properties
+            margin-inline
+                margin-inline-start -> margin-left (Direction LTR)
+                margin-inline-end -> margin-right (Direction LTR)
+
+            margin-block
+                margin-block-start -> margin-top
+                margin-block-end -> margin-bottom
+*/
+
+/* * Border */
+/*
+    border-width: 10px;
+    border-color: red;
+    border-style: solid;
+        border-style: solid dashed dotted double
+
+    border: 10px solid violet; [Shorthand Property]
+        border-width: 10px; [Shorthand Property]
+            border-top-width: 10px;
+            border-right-width: 10px;
+            border-bottom-width: 10px;
+            border-left-width: 10px;
+
+        border-color: violet; [Shorthand Property]
+        border-style: solid; [Shorthand Property]
+
+    ? Logical Properties
+        border-inline
+            border-inline-start-(width/color/style) -> border-left(LTR)
+            border-inline-end-(width/color/style) -> border-right(LTR)
+
+        border-block
+            border-block-start-(width/color/style)
+            border-block-end-(width/color/style)
+
+    - border affects the width of the element
+
+    * Border Radius
+        ? If border-radius 1/2 (width, height), this means this square (width == height)
+        will be converted to circle 
+
+        ? border-radius accepts values of 4 directions:
+            1. top-left
+            2. top right
+            3. bottom-right
+            4. bottom left
+            - border-radius: 100px 0 100px 0;
+                Means:
+                    border-top-left-radius: 100px;
+                    border-bottom-right-radius: 100px;
+        
+            - each direction accepts 2 values:
+                border-top-left-radius: 50px 25px
+
+
+            ? Logical Properties
+                border-start-start-radius -> top-left (ltr)
+                border-start-end-radius -> top-right (ltr)
+                border-end-start-radius -> bottom-left (ltr)
+                border-end-end-radius -> bottom-right (ltr)
+
+        ? It can be used either with border or not
+
+
+    * Example (Making triangle with border)
+        div {
+            width: 0px;
+            border-right: 10px solid red;
+            border-left: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-top: 10px solid transparent;
+        }
+
+    * Example (Making Circle with border)
+        div {
+            width: 50px;
+            height: 50px;
+            ? width MUST be equals height
+            border: 5px solid darkcyan;
+            border-radius: 50%;
+        }
+*/
+
+/* * Box Sizing */
+/*
+    content-box (default value):
+        1. Only the content area is included in the width and height.
+        2. Padding and Borders are added outside the specified width and height.
+        3. the actual space of element (content area + padding & border)
+
+        * Example:
+            width: 300px
+            padding: 20px,
+            the actual space of element:
+                300px(content area) + 20px (left padding) + 20px (right padding) = 340px.
+
+    border-box:
+        The content area + padding & border are (taken from/ included in) the width and height
+
+        * Example:
+            width: 300px
+            padding: 20px
+            The content area will shrink to make room for the padding, but the total space the element occupies remains 300px.
+*/
+
+/* * OutLine */
+/*
+    padding & Border => Affects Width/Height Of The Element
+    margin & outline => Doesn't Affect Width/Height Of The Element
+    Unlike border, You Can't Control The Sides Of Outline
+    Values:
+        outline-width
+        outline-style
+        outline-color
+*/
+
+/* * Block & Inline & Inline-Block */
+/*
+    Block
+        - Blocks the other elements from sitting next to it
+        - Take Full Width If No Width Specified
+        - Respect Width/Height/Padding/Margin
+
+    Inline
+        - Doesn't Block The Other Elements  (elements can sit next to it) 
+        - Ignores Width/Height properties
+        - Respect Padding/Margin Only(Left & Right)
+
+
+    Inline-Block
+        - Doesn't Block The Other Elements (elements can sit next to it)
+        - Respect Width/Height properties
+        - Respect Padding/Margin
+        ! makes spaces between elements, and there is NO way to get rid of it.(trick: removing the space between elements)
+*/
+
+/* * Hide element */
+/*
+    ? 1. display: none
+        Effect:
+            Completely removes the element from the document layout and space occupied by the element is removed.
+
+        Accessibility:
+            Screen readers won't announce elements with display: none.
+
+        Interactivity:
+            The element is not interactive and cannot receive any user input events (e.g., clicks).
+    
+    ? 2. visibility: hidden
+        Effect:
+            Hides the element but keeps its space in the document layout.
+
+        Accessibility:
+            Screen readers may still announce elements with visibility: hidden.
+
+        Interactivity:
+            The element is not visible but is still present in the document and can receive user input events
+
+    ? 3. opacity: 0
+        Effect:
+            Hides the element but keeps its space in the document layout.
+
+*/
+
+/* * Width */
+/*
+    (min-width: 50px; => Ensures That max-width can't be less than min-width
+    max-width: 50px;) == width: 50px;
+    width: fit-content
+    height: auto [Default Value]
+*/
+
+/* * Overflow */
+/*
+
+    ? visible (Default)
+        - The content is not clipped and may overflow the element's box.
+
+    ? hidden
+        - The content is clipped and not visible outside the element's box.
+        - Noway to see the hidden content
+
+    ? scroll
+        - The content is clipped, and a scrollbar is added to allow scrolling to see the hidden content.
+        - Scrollbar appear whether or not the content actually overflows.
+
+    ? auto:
+        - The content is clipped, and a scrollbar is added ONLY IF the content overflows the element's box.
+
+    ? overflow-x (horizontal overflow)
+
+    ? overflow-y (vertical overflow)
+    - If not explicitly set, the overflow-y property defaults to auto, which means a scrollbar will appear if the content overflows the container's height (vertical overflow).
+
+
+    * Overflow related to float how?
+        - The problem with float is:
+            ? 1. Floated elements are taken out of the normal document flow, so the parent height will be 0px
+
+            ? 2. Subsequent elements Floats as well 
+
+        - Does overflow fix them ?
+            ? overflow: auto/hidden;
+                - It Only fixes the first problem "Floated elements are taken out of the normal document flow, so the parent height will be 0px".
+                - It does NOT fix the second problem "Subsequent elements Floats as well".
+*/
+
+/* * Text */
+/*  
+    ? color
+        Sets The Color Of The Element's Text.
+
+    ? text-shadow
+        text-shadow: 1px 1px 1px cyan; => H-Shadow, V-Shadow, Blur, Color
+
+        - To Make More Than One Shadow
+            text-shadow:
+                0.6px 0.6px 0px red,
+                1.2px 1.1px 0px darkviolet; 
+
+    ? text-align
+        Right
+        Center
+        Left
+
+    ? direction
+        ltr: Left To Right [Default] 
+        rtl: Right To Left 
+
+    ? vertical-align
+        Only affects inline, inline-block elements.
+        Usage: To position text against image
+        top
+        middle
+        bottom
+        baseline
+        text-top
+        text-bottom
+        sub
+        super
+
+        
+    * Decoration
+        ? text-decoration-line
+            none
+            underline
+            overline
+            line-through
+
+        ? text-decoration-style
+            solid
+            double
+            dotted
+            wavy
+
+        ? text-decoration-color
+        ? text-decoration-thickness
+        ? text-underline-offset
+
+        ? text-decoration
+            Shorthand Property for
+                1. text-decoration-line
+                2. text-decoration-style
+                3. text-decoration-color
+                4. text-decoration-thickness
+
+            Example:
+                text-decoration: underline double #09c;
+
+    ? text-transform
+        none
+        capitalize
+        lowercase
+        uppercase
+
+    ? text-wrap 
+        wrap
+            To wrap overflowing text onto multiple lines at (logical points in the text).
+        no-wrap
+            To prevent text from wrapping, allowing it to overflow
+        balance
+            To distribute the text evenly across each line.
+        pretty
+            To prevent orphans (a single word on its own line) at the end of a text block.
+            To prevent this:
+                "Who cares if one more light goes out in the sky of million 
+                stars?!"
+            Instead:
+                "Who cares if one more light goes out in the sky of
+                million stars?!"
+
+    ? text-overflow
+        clip [Default value]
+        ellipsis
+            To work properly:
+                1. container overflow (hidden)
+                2. white-space: no-wrap
+            Example:
+                Who Cares If One Mo...
+
+    ? letter-spacing
+        The Space Between All Letters Of The Whole Text (-/+)px
+
+    ? text-indent
+        The Indentation Before The Whole Text (-/+)px
+
+    ? line-height
+        The Space Between Two Lines (Default 1.2 * font-size)
+
+        !NOTE
+            When the height of the container (div) is fixed, setting the line-height to the same value as the container's height aligns the text vertically in the middle
+
+    ? word-spacing
+        The Spaces Between All Words (1.6)
+
+
+    ? white-space
+        normal [Default Value]
+            To cause text to wrap normally within an element. Newlines and spaces will be collapsed.
+
+        nowrap
+            To prevent text from wrapping within an element. Newlines and spaces will be collapsed.
+
+        pre
+            To preserve newlines and spaces within an element. Text will not be wrapped.
+
+        pre-line
+            To preserve newlines but not spaces within an element. Text will be wrapped normally.
+
+        pre-wrap
+            To preserve newlines and spaces within an element. Text will be wrapped normally
+
+        break-spaces
+            To preserve newlines and spaces within an element. White space at the end of lines will not hang, but will wrap to the next line.
+
+    ? word-break
+        normal [Default Value]
+            To only add line breaks at normal word break points like (hyphen).
+        
+        break-all
+            Adds line breaks to prevent overflow.
+            
+        keep-all.
+            Is like normal BUT for languages like Chinese, Japanese, and Korean
+
+    ? hyphens
+        none (Default)
+            Prevents hyphenation entirely, even if soft hyphen characters (&shy;)
+
+        manual
+            Allows hyphenation only where soft hyphen characters (&shy;) are inserted manually in the text.
+
+        auto
+            Allows the browser to automatically hyphenate text based on language rules when needed.
+*/
+
+/* * Font */
+/*
+    font-family: Arial, Helvetica, sans-serif /('Times New Roman', Times, serif;);
+
+    font-size: 10px; (large,Larger,x-large, xx-large)
+        - Default Font-Size For Web Page <html> Is 16px.
+
+    font-style: (normal, (italic/oblique))
+
+    font-variant: small-caps; => Is Like (text-transform: uppercase;) But A Little Bit Smaller
+    
+    font-weight:
+        Range: (100: 900)
+            - normal(400)
+            - bold(700)
+*/
+
+/* * CSS Units */
+/*
+    ? Absolute
+        (px)
+            - border, shadow
+
+        (deg)
+        (s)
+        (fr)
+
+    ? Relative
+        (rem)
+        - 1 rem means => 1 * font-size => <html>
+        - By Default Font Size at <html> is 16px
+        - [RECOMMENDED] to use with
+            1. font
+            2. margin
+            3. padding
+            4. border
+
+            * When we change the font size of the browser to small or large, this affects the font size of <html> 
+        
+        (em)
+            - 1em means => 2 * font-size (Direct Parent)
+        
+
+        percent (%)
+            - width, position (top, right, left, bottom)
+
+    
+        vw => Viewport Width
+            - 1vw => 1% Of Viewport Width
+
+            svw => small viewport width
+            lvw => large viewport width
+            dvw => dynamic viewport width
+
+        vh => Viewport Height
+            - 1vh => 1% Of Viewport Height
+
+            svh => small viewport height
+            lvh => large viewport height
+            dvh => dynamic viewport height
+
+        vmin => Viewport Minimum
+            - 1vmin => 1% of the smaller dimension of the viewport, whether it is the height or the width.
+*/
+
+/* * Cursor */
+/*
+    cursor: text; (text, pointer, move, grab, ...)
+*/
+
+/* * Float */
+/*
+    left || right (start || end)
+    - The problem with float is:
+        ? 1. Floated elements are taken out of the normal document flow, so the parent height is 0px
+
+        ? 2. Subsequent elements Floats as well
+        
+
+    ? How to fix ?
+        1. Use the clear property on an element immediately following the floated elements.
+
+        2. By setting overflow: hidden; on the parent container
+
+        * Example:
+            <div class="clear-fix"></div>
+            .clear-fix {
+                clear: (left || right || both according to the float);
+            }
+    ? Floated elements can sit next to each other if there's enough space in the container, similar to inline elements. 
+
+*/
+
+/* * Opacity */
+/*
+    opacity: 0.5; => 5%
+    Unlike
+        background-color: rgba(137, 43, 226, 0.5); Only Affects background-color 
+        Opacity Affects The Whole Element
+*/
+
+/* * Position & Z-Index */
+/*
+    ? 1.static (Default value)
+        - The element is positioned at the normal flow of the document.
+        - top, right, bottom and left have NO effect.
+
+    ? 2.relative:
+        - The element is positioned relative to its normal position. 
+        - Shifting is done using top, right, bottom, and left.
+
+        - Even though the element can be visually shifted, it won't affect the position of other elements around it. Other elements will continue to layout as if the element is still in its original place.
+
+        - If (top & bottom) are given => TOP wins
+        - If (right & left) are given
+            ltr => left wins
+            rtl => right wins
+    
+    ? 3.absolute
+        - The element is positioned RELATIVE to the nearest (NON-STATIC) positioned ancestor (It doesn't have to be the direct parent).
+        - If there is no (NON-STATIC) positioned ancestor, it is positioned RELATIVE to VIEWPORT
+
+        - The element is completely removed from the normal document flow. This means it will no longer affect the position of other elements, nor will be affected by them.
+
+
+        * Example (loading screen)
+            .loading-screen {
+                background-color: #09c;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left: 0;
+                right: 0;
+
+                ? The div will be stretched to cover the whole viewport, ofc if no width and height specified.
+            }
+
+    ? 4.fixed
+        - The element is positioned relative to the viewport.
+        - It stays in the same place even when the page is scrolled.
+
+
+    ? 5.sticky:
+        The element is treated as RELATIVE until it crosses a specified point (defined by top, right, bottom, or left), then it is treated as FIXED.
+
+    
+    * The z-index
+        - Controls the stacking order of elements that overlap.
+        - It only works on positioned elements (NON STATIC) & flex items (children).
+
+        How z-index Works?
+            - Positive values:
+                An element with a higher z-index value will be placed above an element with a lower z-index value.
+
+            - Negative values:
+                An element with a negative z-index value can be placed behind other elements.
+
+            - auto (Default value):
+                The stacking order follows the order of the HTML elements.
+
+            * Parent and Child Relationship
+                z-index of child element is relative to the stacking context created by its parent.
+
+                * Stacking Context
+                    -> Is a layer contains a group of elements that stack together.
+                    -> A new stacking context is created when an element has one of the following:
+                        [1] A z-index other than auto, and the element's position is relative, absolute, or fixed.
+                        [2] opacity less than 1.
+                        [3] Some CSS3 properties like transform, filter, etc.
+
+                    isolation
+                        To control if an element should explicitly create a new stacking context.
+                        Values:
+                            auto -> default
+                            isolate
+
+                    
+*/
+
+/* * List & Table Styling */
+/*
+    * List Styling
+        Most Used Case:
+            ul {
+                list-style-type: none; [disc => Default]
+                margin: 0px;
+                padding: 0px;
+            }
+
+    * Table Styling
+        border-spacing: 5px => Means The Space between cells: 5px
+*/
+
+/* * Pseudo Classes & Elements */
+/*
+    * Pseudo Elements
+        ? CHILDREN of the main element.
+        ::Before/After {
+            content: ""; => Must be initialized at least with ("", counter(), Attr())
+        }
+        ::first-letter
+        ::first-line
+        ::selection
+
+    * Pseudo Classes:
+        :hover 
+            ? Parent-child hover relationship
+                .parent:hover .child{
+                    ---------------
+                }
+
+        :checked (Form Input of type [check box])
+        :focus (Form Input)
+        :visited (Anchor Tag)
+        :empty   
+        :root
+
+*/
+
+/* * Prefixes */
+/*
+Vendor Prefixes:
+    -webkit- => Chrome, Safari, Opera(new versions)
+    -ms-     => IE, Edge
+    -moz-    => Mozilla Firefox
+    -o-      => Opera (old versions)
+    Example:
+        -webkit-border-radius: 10px; 
+*/
+
+/* * Box Shadow */
+/*
+    box-shadow: Horizontal Shadow, Vertical shadow, Blur, Spread[Not Required], Color, Inset
+        box-shadow: 10px 10px 10px 10px #00000080, 15px 15px 15px 15px darkred;
+*/
+
+/* * Transition */
+/*
+    * A transition has four main components:
+        ? 1. (transition-property)
+            The CSS property you want to animate (e.g., width, height, background-color, transform, etc.).
+
+            transition-property: all [Default];
+            transition-property: width, margin;
+                => Means any other CSS animated property will take the default values of transition
+                    - delay: 0 [Default]
+                    - duration: 0 [Default]
+                    - timing-function: ease [Default] 
+            
+
+        ? 2. (transition-duration)
+            How long the transition should take (2s for 2 seconds, 500ms for 500 milliseconds).
+
+        ? 3. (transition-timing-function)
+            The speed curve of the transition
+                ease [Default]: Starts slow, speeds up, and then slows down.
+                linear: Constant speed from start to finish.
+                ease-in: Starts slow and then speeds up.
+                ease-out: Starts fast and then slows down.
+                ease-in-out: Starts slow, speeds up, and then slows down.
+                cubic-bezier()
+
+
+        ? 4. (transition-delay)
+            The time before the transition starts
+
+            
+            
+            * SHORTHAND Property:
+            transition: property, duration, [timing-function, delay] can be switched
+            transition: all 2s linear 1s
+            
+            ? If you want to animate multiple properties, you can separate them with commas.
+            transition: margin-top 2s linear 1s,
+            margin-left 1s ease 2s;
+
+        * Transitions work with properties that have a concept of progression
+            - Properties like opacity, width, height, color, transform, and margin support transitions because they have intermediate values that allow smooth transitions.
+    
+            - However, properties like display and visibility don't work with transitions because they are either "on" or "off" with no intermediate state. 
+*/
+
+/* * !important */
+/*
+What is !important?
+    The !important keyword is added to a CSS declaration to give it the highest priority. When multiple conflicting rules apply to the same element, the rule with !important will override all other rules, even those that are more specific or appear later in the stylesheet.
+    Example:
+        background-color: darkcyan !important;
+*/
+
+/* * Margin Collapse */
+/*
+    ? When does margin collapsing happen?
+        [1] Between block elements (siblings):
+            The bottom margin of one block element and the top margin of another collapse into each other.
+            * Example:
+                <div class="element-1"></div>
+                <div class="element-2"></div>
+                
+                .element-1 {
+                    margin-bottom: 20px;
+                }
+                .element-2 {
+                    margin-top: 30px;
+                }
+                In this case, the space between .element-1 and .element-2 will be 30px, NOT 50px.
+
+        [2] Empty block elements:
+            When there is no border, padding, inline content, height, or min-height in an element, and it has vertical margins (margin-top and margin-bottom), those margins collapse.
+            * Example
+                .empty-div {
+                    margin-top: 20px;
+                    margin-bottom: 10px;
+                    No border, padding, content, height, or min-height
+                }
+
+                <div>Content</div>
+                <div class="empty-div"></div>
+                <div>Content</div>
+
+        [3] Parent-child relationship:
+            If a block element has no border, padding, or content, height or min-height and its child has margins, the child's margins collapse with the parent's margins.
+            * Example
+                <div class="parent">
+                    <div class="child"></div>
+                </div>
+
+                .parent {
+                    margin-top: 50px;
+                }
+                .child {
+                    margin-top: 30px;
+                }
+
+        ? Notes
+            -> When all margins are positive, the size of the collapsed margin is the largest margin.
+            -> When all margins are negative, the size of the collapsed margin is the smallest margin.
+            -> When negative margins are involved, the size of the collapsed margin is the SUM.
+            -> Margins don't collapse in a container with display set to flex or grid.
+
+    ? What prevents margin collapse?
+        [1] Overflow: [RECOMMENDED]
+            Set overflow: hidden (or auto/scroll) to create a new block formatting context (BFC).
+
+        [2] Padding or Border or content:
+            Adding padding or borders will prevent collapsing.
+
+        [3] Positioning (relative, absolute, or fixed):
+            Prevents margin collapse.
+
+        [4] Setting min-height or height:
+            Ensures margins don't collapse by enforcing height.
+
+        [5] Float:
+            Floating the element prevents margin collapse by separating the element from the normal flow.
+*/
+
+/* * CSS Variables */
+/*
+    * Global
+        - (:root) pseudo class refers to <html>
+        - The difference is between :root & <html>
+            (:root) has specificity (0 1 0)
+            <html> has specificity (0 0 1)
+            ? (:root) is more specified
+
+        :root{
+            --main-color: teal;
+        }
+            
+    * Local
+        .parent{
+            --main-color: darkcyan;
+        }
+
+    ? To use the variable, you call it with the var()
+    ? You can provide a fallback value in case the variable is not set
+        div {
+            background-color: var(--mainColor, black);
+            color: white;
+            padding: 20px;
+        }
+*/
+
+/* * Flex Box For Flex Container (Parent) */
+/*
+    * display: flex
+
+    * flex-direction: [row, column, row-reverse, column-reverse];
+        row [DEFAULT]
+            ltr OR rtl according to page direction UNLIKE "float" that doesn't respect page direction.
+
+        column
+        row-reverse
+        column-reverse
+
+    * flex-wrap
+        nowrap [Default value]
+            If flex items can't fit in flex container width, they will shrink to fit in width.( that's why default value of flex-shrink is 1)
+
+        wrap
+            If flex items can't fit in flex container width, they wrap to new line
+
+        wrap-reverse
+
+    * flex-flow
+        SHORTHAND property for (flex-direction & flex-wrap)
+            flex-flow: row wrap;
+
+
+    * justify-content (Main axis)
+        - Controls how flex items will be placed along main axis.
+
+        ? flex-start [Default]:
+            Flex items are placed at the start of the flex container (Items Block will be at left).
+
+        ? flex-end:
+            Flex items are placed at the end of the flex container (Items Block will be at right).
+
+        ? center:
+            Items are placed in the middle of the flex container, with equal space on both sides.
+
+        ? space-between:
+            The first item is at the left edge.
+            The last item is at the right edge.
+            All items in between are evenly spaced.
+
+        ? space-around:
+            Flex items are placed with equal space around each flex item.
+            The space before the first item and after the last item is half the space between the middle items.
+
+        ? space-evenly:
+            Flex items are placed with equal space between all flex items and the edges of the container.
+            The space before the first item, between each item and after the last item is all the same.
+
+    * align-items (Cross axis)
+        - Controls how flex items will be placed along cross axis.
+
+        * Key Points:
+            ? Main Axis:
+                The direction defined by flex-direction.
+                Example:
+                    If flex-direction is row, the main axis is horizontal; if it's column, the main axis is vertical.
+
+
+            ? Cross Axis:
+                The direction perpendicular to the main axis.
+                Example:
+                    If flex-direction is row, the cross axis is vertical; if it's column, the cross axis is horizontal.
+
+        * Values
+            ? 1. stretch (Default)
+            ? 2. flex-start
+            ? 3. flex-end
+            ? 4. center
+            ? 5. baseline
+                Incase the text isn't aligned           
+*/
+
+/* * Flex Box For Flex Items */
+/*
+    * flex-grow
+        - How much a flex item should grow relative to the other items in the flex container.
+
+        - Default => 0
+
+        - How To Calculate ?
+            [Available Space / SUM (flex-grow value)] * flex-grow value for each flex item
+            this value will be added to the original width
+
+    * flex-shrink
+        - How much a flex item should shrink relative to the other items if the flex container width is smaller than the total width of its flex items.
+
+        - Default => 1
+
+        - How To Calculate ?
+            [The Space needed / SUM (flex-shrink value)] * flex-shrink value for each flex item
+            this value will be subtracted of the original width
+
+        ? Important Note:
+            An item cannot shrink below its content’s minimum size unless min-width is explicitly set to a lower value. 
+
+
+    * order
+        - Controls the order of flex items in the flex container
+        - Default => 0.
+        - Items with a lower order will appear before items with a higher order.
+        - Positive & negative numbers are allowed
+
+
+    * flex-basis
+        Controls the initial size of the flex item along the main axis.
+        Initial size means:
+            - width -> flex-direction: row;
+            - height -> flex-direction: column;
+
+        Flex-basis respects the (max-width & max-height) if specified
+
+        Flex-basis has priority over (width & height)
+
+        Use flex-basis NOT (width || height) when using flex system 
+
+        Default => auto (to fit the content)
+
+        Flex-basis doesn't work with position absolute 
+
+
+    * flex [RECOMMENDED]
+        SHORTHAND property for
+            1. flex-grow 
+            2. shrink 
+            3. basis
+
+        flex: none;
+            flex-grow: 0;
+            flex-shrink: 0;
+            flex-basis: auto;
+*/
+
+/* * Filters & Gradient */
+/*
+    * Filter
+        - grayscale(%)
+        - blur(px)
+        - invert(%)
+
+    * Gradient
+        linear-gradient()
+        radial-gradient()
+
+        background-image: linear-gradient()
+        1. Angle || Direction (Optional)
+            to bottom (DEFAULT)
+            to right
+            to left
+            to top
+            to top left
+            90deg
+            ...
+
+        2. color-stop 1
+        3. color-stop 2,
+
+        ? Example 1
+            background-image: linear-gradient(red, cyan 20%)
+                - Gradient happens between red & cyan before 20%
+                - Pure cyan starts after 20% to the end
+
+        ? Example 2
+            background-image: linear-gradient(to right bottom,
+            red,
+            red 15%,
+            rgba(0, 0, 0, 0) 15%);
+                - Gradient happens between red & red
+                - Pure red starts from 15% to the end
+                - rgba(0, 0, 0, 0) this transparent color also starts 15% to the end (There is no gradient happens between red & transparent cause they both starts from 15%)
+
+        ? Example [Important] Creating layer over an image
+            The stacking order of background-image layers:
+                The first background layer specified is placed on top of the layers that come after it. 
+                background-image:
+                    linear-gradient(to right bottom, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.2)),
+                    url(../images/test.ong);
+
+*/
+
+/* * Caret Color  & Pointer Events */
+/*
+
+*/
+
+/* * Grid For Grid Container (parent) */
+/*
+    * display: grid / inline-grid;
+
+    * grid-template-columns:
+        Widths of columns
+            - px: 
+                200px 400px 200px 
+                    3 columns:
+                        first => 200px width 
+                        second => 400px width
+                        third => 200px width
+
+            - %:
+                25% 50% 25%
+
+            - auto
+                Takes up the minimum space needed to fit the content. If there is extra space available in the grid container, the auto columns can expand to occupy the available space.
+                    auto 50% auto
+
+            - repeat():
+                First Param:
+                    - numberOfColumns
+                    - auto-fill
+
+                Second Param
+                    - width
+                    
+                Examples:
+                    1. repeat(4, [px, 25%, auto, fr])
+                    2. repeat(auto-fill, [px/%])
+
+            - fraction(fr):
+                100px 100px 1fr 2fr
+                        4 columns:
+                            first => 100px width 
+                            second => 100px width
+                            suppose the whole width is 800px, the left is 600px
+                            third => 1fr = 200px
+                            forth = 2fr = 2 * 200px = 400px 
+
+
+            - minmax(minValue, maxValue)
+                minmax(100px, 600px) repeat(2, 1fr)
+                    The first column will be at least 100px wide but can expand to 600px wide
+
+            - ch (numberOfCharacter)
+                20ch 10ch
+
+            
+            ! The difference between (fraction & auto)
+                fr: Based on available space [Greedy]
+                auto: Based on content [Shy] 
+
+    ? gird-template-rows
+        Heights of rows
+
+    ? grid-template
+        Shorthand property that combines grid-template-rows and grid-template-columns.
+        Example:
+            grid-template: repeat(2, 200px) / repeat(3, 1fr);
+                This will create a grid with two rows each is 200px height, and 3 columns with equal width.    
+
+
+    * Cell content against the cell
+
+        ? align-items (Y Axis)
+            1. Stretch [Default]
+            2. Start
+            3. center
+            4. end
+        
+        ? justify-items (X Axis)
+            1. Stretch [Default]
+            2. Start
+            3. center
+            4. end
+
+        ? place items
+            SHORTHAND property for 
+                1. align-items (Y Axis)
+                2. justify-items (X Axis)
+
+            place-items: center center;
+                align-items: center;
+                justify-items: center;
+
+
+    * Cells against the grid container
+        ? place-content
+            SHORTHAND property for 
+                1. align-content (Y Axis)
+                2. justify-content (X Axis)
+
+                ? justify-content (X Axis)
+                    1. start
+                    2. center
+                    3. end
+                    4. space-between
+                    5. space-around
+                    6. space-evenly
+
+                ? align-content (Y Axis)
+                    1. start
+                    2. center
+                    3. end
+                    4. space-between
+                    5. space-around
+                    6. space-evenly
+*/
+
+/* * Grid For Grid Items */
+/*
+    ? grid-column 
+        Shorthand property for:
+            grid-column-start
+            grid-column-end
+
+        Values:
+            - start / end 
+                grid-column: 1 / 5  -> From "Grid line 1" to "Grid line 5"
+
+        span
+            span works relative to its current position (grid-column-start)
+                grid-column: 1 / span 3  -> Start from "Grid line 1" and extend the items across 3 columns
+        
+        ! Important
+            An implicit grid is created by the browser when:
+                1. When grid-column-end exceeds the number of columns defined by grid-template-columns.
+                2. When content exceeds the number of rows defined by grid-template-rows
+
+            By default, implicitly created rows and columns have a size of auto, meaning they will expand to fit the content unless you define grid-auto-rows or grid-auto-columns.
+
+    ? grid-row
+
+    ? grid-area:
+        gird-row-start / grid-column-start / grid-row-end / gris-column-end
+        ||
+        The name of grid-template-area
+
+        grid-row + grid-column
+        Example:
+            grid-area: 2 / 2 / 3 / 6;
+            ==
+            grid-row-start: 2;
+            grid-row-end: 3;
+            grid-column-start: 2;
+            grid-column-end: 6;
+            ==
+            grid-row: 2 / 3;
+            grid-column: 2 / 6;
+
+    ? place-self (Y X)
+        SHORTHAND property for
+            1. align-self (Y Axis)
+            2. justify-self (X Axis)
+
+
+
+    * IMPORTANT
+        ? grid-template-areas [PARENT]
+            * The template areas shape MUST be rectangle.
+            .parent {
+                grid-template-areas:
+                    "item1 item2 item3"
+                    "item4 item5 item6";
+
+                * After we draw the grid template, we can further control the width of the columns and the heights of the rows using:
+                    grid-template-columns 
+                    grid-template-rows
+                
+                grid-template-columns: 25% 50% 25%;
+                grid-template-rows: 50px 100px;
+            }
+
+        ? grid-area [Child]
+            .child-1 {
+                grid-area: item1;
+            }
+            .child-2 {
+                grid-area: item2;
+            }
+            .child-3 {
+                grid-area: item3;
+            }
+            .child-4 {
+                grid-area: item4;
+            }
+            .child-5 {
+                grid-area: item5;
+            }
+            .child-6 {
+                grid-area: item6;
+            }
+
+
+    * Responsive layout
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr))
+
+        ? How it works together:
+            The browser will try to fill the grid with as many columns as possible, each being at least 200px wide.
+            If there is more space available, the columns will grow to evenly distribute the remaining space, but they will never shrink below 200px in width.
+
+*/
+
+/* * Flex & Grid Common */
+/*
+    * align content
+        When there are:
+            - Multiple line flex/grid container 
+
+        It controls the space between and around flex/grid lines (along the cross axis).
+
+        ? Values
+            1. stretch (default)
+            2. center
+            3. flex-start
+            4. flex-end
+            5. space-between
+            6. space-around
+            7. space-evenly
+
+    * align-self
+        Aligns a specific flex/grid item differently from others along CROSS axis.
+            1. auto (default)
+                To align an item based on the value of the container’s align-items property:
+            3. stretch
+            3. flex-start
+            4. flex-end
+            5. center
+            6. baseline
+
+    * gab
+        SHORTHAND property for:
+        ? row-gab 
+            The space between rows
+
+        ? column-gab
+            The space between columns 
+*/
+
+/* * Transform */
+/*
+    * 2D
+        ? rotate()
+            Allows you rotate an element by a specified angle. 
+                - deg (degree)
+                - turn
+                If negative value, it rotates counterclockwise
+
+            rotateX() => rotates according to x axis
+            rotateY() => rotates according to y axis
+
+        ? scale();
+            Allows you to resize an element along its X and Y axes.
+                transform: scale(2)
+                    ===
+                transform: scale(2, 2)
+                    ===
+                transform: scaleX(2) scaleY(2);
+
+                ! Notes
+                    -> if negative value, it flips according to x || y
+                        transform: scaleX(-1)
+                            it flips according to y axis === rotateY(180deg)
+
+                    -> scale doesn't affect the layout
+
+
+        ? translate(x, y(Default 0))
+            Moves an element along its X and Y axes.
+                translateX()
+                translateY()
+
+        ? skew(x, y (Default 0))
+            distorts an element along its axes.
+                skewX()
+                skewY()
+ 
+
+        ? matrix
+            Function combines multiple transformations into a single matrix.
+                Params:
+                    1. scaleX()
+                    2. skewY()
+                    3. skewX()
+                    4. scaleY()
+                    5. translateX()
+                    6. translateY()
+        
+            transform: matrix(1.5, 0.2679, 0, 1, 20, 20);
+                ==
+            transform: translateX(20px) translateY(20px) scaleX(1.5) scaleY(1) skewX(0) skewY(15deg);
+
+            ! Note
+                When using matrix(), the order matters. Translation (both X and Y) happens first, followed by scaling and skewing. 
+
+    * Parent Element
+        ? transform-origin
+            Default values 50% 50% 0
+            2D transform-origin: (X axis) value  (Y axis) value
+            3D transform-origin: (X axis) value  (Y axis) value (z axis)value
+
+            Values
+                - px, em, rem
+                - %
+                - keywords
+                    X axis
+                        left: 0%
+                        center: 50%
+                        right: 100%
+
+                    Y axis
+                        top: 0%
+                        center: 50%
+                        bottom: 100%
+
+
+        ? transform-style
+            - flat [Default Value]
+            - preserve-3d
+
+        ? perspective
+
+        ? perspective-origin
+
+
+
+    * 3D
+        ? rotate
+            rotateX()
+            rotateY()
+            rotateZ()
+                if not at 3D environment, it works exactly like transform: rotate();
+
+            rotate3d(x[0:1], y[0:1], z[0:1], deg)
+                transform: rotate3d(1, 1, 1, 45deg);
+
+        ? translate
+            translate3d(x, y, z)
+                translateX();
+                translateY();
+                translateZ();
+
+                transform: translate3d(50px, 50px, 50px);
+                    ! To work properly translate3d() needs the property "perspective" to be set at the parent element.
+
+                    perspective-origin: center center;
+
+        ? backface-visibility:
+            - visible [Default value]
+            - hidden
+*/
+
+/* * Animation */
+/*
+    @keyframes change-color {
+        from (0%) {
+            background-color: darkcyan;
+        }
+
+        to (100%) {
+            background-color: darkred;
+        }
+        ? (%) according to animation-duration
+    }
+
+    ? 1. animation-name
+        The name specified at @keyframes
+
+    ? 2. animation-duration
+        - 1s
+        - 1000ms
+
+    ? 3. animation-timing-function
+        - ease [Default value]
+        - ease-in
+        - ease-out
+        - ease-in-out
+        - linear
+
+    ? 4. animation-delay
+        - 1s OR -1s(this amount of time will be taken from animation-duration)
+        - 1000ms
+
+    ? 5. animation-iteration-count
+        - 5
+        - infinite
+
+    ? animation-direction
+        - normal [1.2.3] (Default)
+        - reverse [3.2.1]
+        - alternate [1.2.3 .. 3.2.1]
+        - alternate-reverse [3.2.1 .. 1.2.3]
+
+
+    ? animation-fill-mode
+        - forwards
+        - backwards
+            ! To be noticed ? animation-delay has to be set
+        - both
+
+    ? animation-play-state
+        - running [Default]
+        - paused
+
+    * Shorthand
+        ? animation
+            1. animation-name
+            2. animation-duration
+            3. animation-timing-function
+            4. animation-delay
+            5. animation-iteration-count
+            6. animation-direction
+*/
+
+/* * Object fit */
+/*
+    - With replaced-elements like (img & video)
+
+    ? fill [Default]
+        The content is stretched to fill the specified (width % height), IGNORING the aspect ratio.
+
+    ? contain
+        The whole content will be appeared, PRESERVING the aspect ration
+        It may cause empty spaces
+    
+    ? cover
+        The content will cover the specified (width & height), PRESERVING the aspect ratio
+        The content may be cropped.
+
+    ? none
+        The content won't be resized at all.
+        It will maintain its original size, which may overflow the container.
+
+    ? scale-down
+        Compares the results of (none and contain), then applying the smaller size between the two options.
+*/
+
+/* * Selectors */
+/*
+
+    *
+        ? Selects all elements on the page.
+
+    p
+        ? Selects all elements of a specific type (p, h1, div).
+
+    .my-class
+        ? Selects all elements with a specific class.
+
+    #my-id
+        ? Selects the element with a specific ID.
+
+
+    p.my-class-1.my-class-2
+        ? Selects only <p> elements that have classes "my-class-1 my-class-2"
+            <p class="my-class-1 my-class-2">
+
+
+    * Grouping
+        .class-one div,
+        .class-two p
+            Targets
+                ? all <div> elements inside <element class="class-one>
+            OR
+            ? all <p> elements inside <element class="class-two>
+
+
+    * Combinators
+        div p 
+            ? Selects all <p> elements inside <div> (It doesn't have to be direct children)
+
+        .class-one .class-two
+            ? Selects all <element class="class-two"> elements inside <element class="class-one"> (It doesn't have to be direct children)
+                <div class="class-one">
+                    ....
+                    <div class="class-two"> </div>
+                </div>
+
+        .my-class div
+            ? Selects all <div> elements inside <element class="my-class"> (It doesn't have to be direct children)
+                <div class="my-class">
+                    ....
+                    <div> </div>
+                </div>
+
+        .parent > .child
+            ? Targets only direct children
+
+        div + p 
+            ? Targets (p) element that comes right after (div) element
+
+        p ~ div
+            ? Targets all <div> elements that are siblings of a <p> element and appear after that <p> in the DOM, it doesn't matter they are immediate or not.
+
+    * Nesting
+        .parent {
+            .child-1 {
+                color: darkcyan
+            } 
+            ===
+            .parent .child-1 {
+                color: darkcyan
+            }
+
+            & ==> REFERENCE To the parent (main selector)
+                &:hover {
+                    background-color: #09C;
+                }
+
+            (> + ~) Are Allowed here
+                > .child {
+                    color: darkorange;
+                }
+        }
+
+    * Attribute
+        [attribute]
+            ? Targets all element that have a specified attribute
+        
+        div[attribute]
+            ? Targets (div) elements that have a specified attribute
+
+        [attribute = "value"]
+            ? Targets all elements that have a specified attribute with specific value
+
+        div[attribute = "value"]
+            ? Targets all (div) elements that have a specified attribute with specific value
+
+        [attribute ^= "value"]
+        ? Targets all elements that have the specified attribute, and its value starts with "value".
+            * Example
+                [title ^= "test"]
+                <div title = "test E-Commerce"> <div/> [Targeted]
+                <div title = "testE-Commerce"> <div/> [Targeted]
+
+        [attribute $= "value"]
+        ? Targets all elements that have the specified attribute, and its value ends with "value".
+            * Example
+                img[src $= ".png"]
+                <img src="images/1.png"> /> [Targeted]
+
+        [attribute ~= "value"]
+            ? Targets all elements that have specified attribute and its value contains this specific word "value" within a space-separated list of words
+                * Example
+                    [title ~= "test"]
+                    <div title = "test E-Commerce"> <div/> [Targeted]
+                    <div title = "testE-Commerce"> <div/> [NOT Targeted]
+
+        [attribute *= "value"]
+            ? Targets all elements that have the specified attribute, and its value contains the substring "value" anywhere within it.
+                * Example
+                    [title *= "test"]
+                    <div title = "test E-Commerce"> <div/> [Targeted]
+                    <div title = "testE-Commerce"> <div/> [Targeted]
+
+    * Pseudo classes as selectors
+        :nth-child(n/even/odd)
+            li:nth-child(3) {
+                color: #09C;
+            }
+            This will select only the third li element.
+
+        :nth-last-child()
+
+        :first-child
+
+        :last-child
+        
+        :not()
+            div:not(.nav)
+                => Select All div elements that don't have class ".nav"
+
+*/
+
+/* * Specificity */
+/*
+    ? The specificity of a CSS selector is calculated based on the following criteria:
+        1. Inline styles
+            Have the highest specificity and override all other rules.
+
+        2. ID selectors
+            Have higher specificity than class selectors and element selectors.
+
+        3. Class selectors
+            Have higher specificity than element selectors but lower than ID selectors.
+
+        4. Element selectors
+            Have the lowest specificity
+
+    ? Calculation
+        (Inline style) (id) (class) (element)
+        1 0 0 0 (Inline style)
+        1 0 0 (id)
+        0 1 0 (Class / Pseudo class/ Attributes selectors)
+        0 0 1 (element)
+
+    ? When multiple rules apply to the same element, the rule with the highest specificity will be applied.
+    ? If two rules have the same specificity, the one that appears later in the CSS will be applied. 
+
+    * Example 
+        #demo => 1 0 0
+
+        .text-danger =>  0 1 0
+
+        h2 => 0 0 1
+
+        h2#demo => 1 0 1 
+        
+        div p span =>  0 0 3
+
+        .text-danger => 0 1 0 
+
+        div.parent p.child span.test => 0 3 3
+
+    ! NOTE
+        "!important" has the highest priority in CSS and will override inline styles as well as any other conflicting styles.
+*/
+
+/* * Responsive Web Design */
+/*
+    ? Media Query
+        @media (screen/print/all[Default]) and (min-width: 300px) and (max-width:900px) {
+            CSS Code that will be applied if conditions are met
+        }
+
+        ? Media Query MUST come at the end so it overwrites the previous CSS code
+
+        Inverting (not)
+            @media not all and (min-width: 640px):
+                not: This negates the entire query that follows.
+                Explanation:
+                Without not, @media all and (min-width: 640px) applies the styles when the viewport width is 640px or larger.
+                By adding not, it inverts the condition, so styles apply only when the width is less than 640px.
+
+*/
+
+/* * Blending */
+/*
+    mix-blend-mode
+        Controls how an element should blend with the background.
+
+    background-blend-mode
+        Controls how an element's background image should blend with its background color.
+
+    Values
+        normal
+        multiply
+        screen
+        overlay
+        darken
+        lighten
+        color-dodge
+        color-burn
+        hard-light
+        soft-light
+        difference
+        exclusion
+        hue
+        saturation
+        color
+        luminosity  
+*/
+
+/* * Extras */
+/*
+    ? Font Face
+        @font-face {
+            font-family: "Roboto regular";
+            src: url(./../fonts/Roboto/Roboto-Regular.ttf);
+            font-weight: 400; IT WON"T AFFECT THE FONT WEIGHT BUT GOOD FOR READABILITY
+        }
+
+        * Comparison
+            - Downloading the Font and Using @font-face
+                - Higher Performance, no additional request is sent to google servers.
+                - Consistency, no font updates
+                - Offline Availability
+
+            - Using the Font Directly from Google Fonts (Link Method)
+                - Ease of Use
+                - Automatic updates
+
+       - The font file extension affects compatibility and rendering across browsers:
+
+            .woff / .woff2: Web-friendly, good compression, widely supported.
+
+            .ttf: TrueType Font, larger size, widely supported.
+
+            .otf: OpenType Font, with extra features, widely supported.
+
+            .eot: Embedded OpenType, older IE versions.
+
+            @font-face {
+                font-family: 'MyFont';
+                src:
+                    url('myfont.woff2') format('woff2'),
+                    url('myfont.woff') format('woff'), 
+                    url('myfont.ttf') format('truetype'), 
+                    url('myfont.eot') format('embedded-opentype');
+            }
+            !NOTE 
+                The format() function is crucial It tells the browser what type of font it’s dealing with.
+
+
+    ? Accent Colors
+        Used to style certain form elements like:
+            checkboxes, radio buttons, and range inputs
+
+        accent-color: #09c;
+
+
+    ? Appearance
+        It allows you to either (keep or remove) the browser’s default styling.
+        Values:
+            appearance: none/auto;
+                -> none : Removes the default browser styling.
+                -> auto : Keeps the default browser styling (Default).
+
+
+    ? caret-color
+        input {
+            caret-color: #09c;
+        }
+
+    ? pointer-events
+        Controls whether an element responds to pointer events like hover, click, ...
+        a {
+            pointer-events: none/auto;
+                -> none: to make an element ignore pointer events.
+                -> auto: Default value.
+        }
+
+    ? resize
+        It allows you to control the resize behavior of an element.
+        Values:
+            resize: none/both/vertical/horizontal;
+        Most common used with textarea.
+
+    ? scroll-behavior
+        It allows you to control the scroll behavior of an element.
+        Values:
+            scroll-behavior: smooth/auto(Default);
+        Most common used with html tag.
+
+    ? touch-action
+        Controls how an element can be scrolled and zoomed on touchscreens.
+        Values:
+            touch-action: auto/none/pan-x/pan-y/pan-up/pan-down/pinch-zoom/manipulation;
+
+
+    ? user-select
+        Controls whether the user can select text in an element.
+        Values:
+            auto (Default)
+            all: When the user clicks the element, all the text inside it will be selected.
+            none: Prevents selecting text in an element and its children.
+            text: Allow selecting text in an element and its children.
+
+    ? aspect-ratio
+        Used to define the width-to-height ratio of an element, ensuring that it maintains a consistent w-to-h ratio even when the width or height changes.
+        Example:
+            div {
+                width: 100px;
+                aspect-ratio: 16 / 9;
+            }
+
+            Height is automatically adjusted to maintain the 16:9 ratio.
+            If width is changed, height will adjust automatically to maintain the 16:9 ratio.
+
+        Use Cases:
+            Image containers
+                .image-container {
+                    width: 50%; 
+                    aspect-ratio: 16 / 9; 
+                }
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+            Video containers
+                .video-container {
+                    width: 75%; 
+                    aspect-ratio: 16 / 9; 
+                }
+                iframe {
+                    width: 100%;
+                    height: 100%;
+                }
+
+    ? columns
+        Shorthand property (columns: column-width column-count;)
+        Both values are optional, and the order does not matter.
+
+        column-count
+            To set the number of columns that should be created for the content within an element.
+            The column width (If not provided) will be automatically adjusted to accommodate that number.
+
+        column-width 
+            To set the (preferred/ideal/MINIMUM) width of each column.
+            The number of columns (If not provided) will be automatically calculated based on the available width.
+
+        ! NOTE
+            columns: 3 200px;
+                If there isn't enough space, the browser reduces the number of columns but keeps each column at least 200px wide.
+
+
+        column-gap
+            To set the gap between columns.
+
+        column-rule
+            To set border between columns (1px solid #09c;)
+
+        column-span (Child)
+            To allow an element to span across multiple columns.
+
+
+*/
+
+/* * Bootstrap Grid System */
+/*
+    * The Concept of containers
+        Required when using bootstrap grid system
+        Bootstrap comes with three different containers:
+            ? container
+                fixed-width container, meaning its max-width changes at each breakpoint.
+
+                It has:
+                   [1] max-width in PIXELS at each responsive breakpoint
+                        mobile => 100%
+                        sm => 540px
+                        md => 720px
+                        lg => 960px
+                        xl => 1140px
+                        xxl => 1320px
+
+                    [2] margin: auto 
+                        To horizontally align the container at the middle
+
+                    [3] Padding with the same value as the negative margin of row
+
+
+            ? container-fluid
+                It has:
+                    [1] width 100% always
+                    [2] Padding with the same value as the negative margin of row
+
+
+            ? container-(sm/md/lg/xl/xxl)
+
+    ----------------------------------------------------
+
+    * The Concept of column & row
+        ? column
+            - Represent The flex item
+            - The grid system of bootstrap consists of 12 columns
+                col-(1:12)
+                    col-6 => width: calc(100%/12) * 6
+                col-(sm/md/lg/xl/xxl)-(1-12)
+
+        ? row
+            - Represents The Flex Container
+            - It has:
+                - d-flex
+                - flex-wrap
+                - negative margin as same as the container/container-fluid padding
+
+        * Example
+            <div class="section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                        <div class="col-md-4">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            * Another way of distribution
+                ? row-cols-(sm/md/lg/xl/xxl)-(1:6)
+                    - Is given to "row" (Flex container)
+                    - (1:6) Represents the number of flex items
+                    - NOTE: The number of items in mobile screen must be specified (row-cols-(1:6))
+                    - We can have 5 equal sized flex items Unlike the main distribution
+
+                ? col
+                    Is given to the flex item
+
+                * Example
+                    <div class="section">
+                        <div class="container">
+                            <div class="row row-cols-sm-1 row-cols-md-3">
+                                <div class="col">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+    ----------------------------------------------------
+
+    ? Gutters
+        - The padding of the flex items (cols) || The gab between flex items.
+        - Its given to the flex container "row".
+
+            g-(0:5)
+                gx-(0:5)
+                    Default (gx-4)
+                    There is a problem with gx-5 (Causes horizontal scrolling)
+                        ? How to solve
+                            1. This padding is considered as overflow, so we can fix the problem with giving the main section "overflow-hidden"
+
+                            OR 
+
+                            2. giving the container padding EQUAL to the gutter value px-5 
+
+                gy-(0:5)
+                    Default (gy-0)
+                    Top margin of flex items (cols).
+                        * [IMPORTANT] Why the top margin of the first row of flex items (cols) isn't appearing?
+                            - Cause the flex container (row) has a negative top margin as same as the the top margin of the flex-items
+                            ? This may cause a problem, when there is content before the container, that't why we gotta give the container pt with the same value as gutter. 
+
+            g-(sm/md/lg/xl/xxl)-(0:5)
+
+    ----------------------------------------------------
+            
+    ? offset
+        Left Margin of flex item
+        offset-(1:11)
+        offset-(sm/md/lg/xl/xxl)-(1:11)
+*/
+
+/* * Layers */
+/*
+    It provides a way to control the order in which styles are applied when multiple styles conflicts.
+
+    Layer Precedence
+        [1] !important
+            Any style marked with !important will take the Highest precedence.
+
+            Conflicts (!important)
+                The layer comes first will take the precedence weather it comes first at @layer list OR at the order of css file.
+
+        [2] UnLayered styles has Higher Precedence.
+        
+        [3] @layer list order
+            @layer layerOne, layerTwo;    
+                - layerTwo will take precedence over layerOne
+
+        [4] Layers are applied in the order they are declared. Later layers take precedence over earlier ones.
+            @layer layerOne {
+            }
+            @layer layerTwo {
+            }
+            layerTwo will take precedence over layerOne
+
+    Why use @layer?
+        It ensures that custom styles take precedence over third-party styles like (Bootstrap, Tailwind) without relying on specificity or !important.
+
+        @import url("./bootstrap.min.css") layer bootstrap;
+        @layer bootstrap, base;
+        @layer base {
+            Any styles in base will take precedence over bootstrap
+        }
+
+
+*/
+
+/* * SASS */
+/*
+	1. What is SASS (Syntactically Awesome Stylesheets) ?
+		CSS preprocessor that extends CSS with features like:
+            * [1] Variables
+                $primary-color: #09c;
+                $main-padding: 10px 20px;
+
+                ! What is the difference between css var and sass var???
+
+            * [2] Nesting
+                .parent {
+                    padding: $main-padding;
+                    background-color: $primary-color;
+                    .child-1 {
+                        background-color: gold;
+                        h2 {
+                            font-size: 1rem;
+                            -> Specificity
+                                h2 -> .parent .child-1 h2 -> (0,2,1)
+                        }
+
+                        &:hover {
+                            background-color: darkcyan;
+                                -> .parent .child-1:hover { STYLE }
+
+                            h2 {
+                                font-size: 1.5rem
+                                    -> .parent .child-1:hover h2 { STYLE }
+                            }
+                        }
+                    }
+
+                    .child-2 {
+                        font: {
+                            size: $font-default;
+                            weight: bold;
+                            style: italic;
+                        }
+                    }
+                }
+
+            * [3] Inheritance (@extend)
+                .common {
+                    color: whitesmoke;
+                    padding: $main-padding;
+                }
+                    -> This will be compiled as well, if we want .common to not be compiled, we use silent placeholder (%)
+
+                %common {
+                    color: whitesmoke;
+                    padding: $main-padding;
+                }
+
+                .parent {
+                    .child-1 {
+                        @extend %common;
+                        background-color: darkorange;
+                    }
+
+                    .child-2 {
+                        @extend %common;
+                        background-color: darkcyan;
+                    }
+                    .child-3 {
+                        @extend %common;
+                        background-color: darkgray;
+                    }
+                }
+
+            * [4] Modularity (@import & @use)
+                @import "variables";
+                color: $primary-color
+
+                    !NOTES
+                        -> fileName MUST start with _underscore to tell compiler not to compile it to css.
+                        -> when importing, no need to prefix _underscore
+                        -> @import is DEPRECATED, It can cause global namespace conflicts   
+
+                @use "variables" as alias; [RECOMMENDED] 
+                color: variables.$primary-color
+
+                    !NOTES
+                        -> Uses module-based imports, preventing global conflicts.
+                        -> Variables, mixins, and functions are only accessible through a namespace
+
+
+            * [5] Mixins (reusable styles)
+                -> Reusable block of styles allows to pass parameters, making styles more flexible.
+
+                @mixin btn($bg-color, $text-color) {
+                    outline: none;
+                    border: none;
+                    border-radius: 10px;
+                    padding: 5px 10px;
+
+                    background-color: $bg-color;
+                    color: $text-color;
+                }
+                
+                @mixin transition($property, $duration) {
+                    transition: $property $duration;
+                    -webkit-transition: $property $duration;
+                    -o-transition: $property $duration;
+                    -moz-transition: $property $duration;
+                    -ms-transition: $property $duration;
+                }
+
+                .parent {
+                    .save-btn {
+                        @include btn(darkOrange, white);
+                        @include transition(color, 0.4s);
+                    }
+                    .edit-btn {
+                        @include btn(#09c, whitesmoke);
+                        @include transition(background-color, 0.6s);
+                    }
+                    .delete-btn {
+                        @include btn(red, black);
+                        @include transition(opacity, 0.8s);
+                    }
+                }
+
+
+            * [6] For loop (@for)
+                @for $i from 1 through 10 (10 -> Inclusive)
+                @for $i from 1 to 10 (10 -> Exclusive)
+
+                Example
+                    @for $i from 1 through 10 {
+                        @if $i == 10 {
+                            .color-blue {
+                                color: blue;
+                            }
+                        } @else {
+                            .color-blue-#{$i*100} {
+                                color: rgba($color: blue, $alpha: $i * 0.1);
+                            }
+                        }
+                    }
+
+            * [7] Map & (@each)
+                Syntax
+                    $mapName: (
+                        property: value
+                    )
+
+                    @each $key,$value in $mapName {
+
+                    }
+
+                Example
+                    $colors: (
+                        red: red,
+                        blue: blue,
+                        green: green,
+                        sky: #09c,
+                    );
+
+                    @each $key, $value in $colors {
+                        @for $i from 1 through 10 {
+                            @if ($i == 10) {
+                                .bg-#{$key} {
+                                    background-color: rgba($color: $value, $alpha: $i * 0.1);
+                                }
+                            } @else {
+                                .bg-#{$key}-#{$i*100} {
+                                    background-color: rgba($color: $value, $alpha: $i * 0.1);
+                                }
+                            }
+                        }
+                    }
+
+
+            * [8]
+                @function calcWidth($width) {
+                    @return $width + ($width * 0.1);
+                }
+                div {
+                    width: calcWidth(500px);
+                }
+
+
+        ! Notes
+            -> SASS compiles into normal css
+            -> SASS supports asthmatic operators
+                width: $main-width + 10
+                width: $main-width + (0.1 * $main-width);
+                => Division (/) behavior
+                    Inside property values (like width: 10px / 2px;), (/) is treated as a CSS division (not a SASS operation).
+                    To force SASS to evaluate division, wrap it in parentheses
+                        width: (10px / 2); // 5px
+                => SASS preserves units during calculations
+
+            -> SASS has its own rgba method
+                rgba($color, $alpha)
+                    $color: Can be a named color (red, blue, green), a hex code (#09c), or an rgb(1,1,1) value.
+                    $alpha: A number between 0 and 1.
+
+*/
+
+/* ============================================= */

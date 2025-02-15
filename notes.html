@@ -1,0 +1,391 @@
+<!-- * Headings best architecture -->
+<!--
+    (h1 (Largest) to h6 (Smallest))
+    1. Use only one "h1" per page as the main heading.
+    2. Subheadings should follow a logical hierarchy:
+        - Use "h2" for major sections under the "h1".
+        - Use "h3" for subsections under "h2", and so on.
+    3. Avoid skipping heading levels for proper accessibility and SEO.
+    4. Use headings to structure content, not for visual styling.
+
+    * Example
+    <h1>Full Stack Web Development</h1>
+        <h2>Front-End</h2>
+            <h3>HTML</h3>
+            <h3>CSS</h3>
+            <h3>JS</h3>
+                <h4>Angular</h4>
+                <h4>React</h4>
+                <h4>Vue</h4>
+
+
+        <h2>Back-End</h2>
+            <h3>Database</h3>
+                <h4>SQL</h4>
+            <h3>C#</h3>
+                <h4>Basics</h4>
+                <h4>OOP</h4>
+                <h4>Advanced</h4>
+                    <h5>Generics</h5>
+                    <h5>LINQ</h5>
+            <h3>.NET Core</h3>
+                <h4>MVC</h4>
+                <h4>API</h4>
+-->
+
+<!-- * Img -->
+<!--
+    <img src="frontendframeworks.jpeg" alt="Front-End Frameworks" width="300">
+
+    ? For each "img" tag, only one image will be displayed
+
+    ? For "src" attribute, only the first attribute will work for the "img" tag
+        - Browser will look for an attribute called "src", once it finds it, it ignores all same attributes
+
+        - This mechanism works for all html tags attributes
+
+    * The benefits of "alt" attribute
+        ? Accessibility:
+            Screen readers rely on the alt text to describe images.
+
+        ? Image Fallback:
+            If an image fails to load, the alt text is displayed in place of the image.
+
+        ? SEO:
+            Search engines use the alt attribute to understand the content of the image, improving the accessibility and
+            searchability of web pages.
+-->
+
+<!-- * Anchor tag -->
+<!--
+    <a href="" target=""> </a>
+    ? href
+        3 types of links:
+            1. External link
+                <a href="https://www.google.com/">Google</a>
+
+            2. Internal link
+                <a href="/about.html">About Us</a>
+
+            3. Fragment identifier
+                <a href="#contact">Go to Contact Section</a>
+                <h2 id="contact">Contact Us</h2>
+
+                ! #contact will be added to the end of url
+                    http://127.0.0.1:5500/index.html#contact
+
+    ? target
+        _self: Opens the link in the same frame (default behavior).
+        _blank: Opens the link in a new tab or window.
+-->
+
+<!-- * Form -->
+<!--
+    * Any data sent to server through input must have name attribute (name="")
+
+    * Input Types
+        ? type="color"
+            - data will be sent to server as hexadecimal (#RRGGBB)
+
+            * Example
+                <label for="clr">Color</label>
+                <input type="color" name="Color" id="clr">
+
+                ? Server will receive 
+                    GET: Color=%23ff0000 (Query string)
+                    POST: Color: %23ff0000 (Form Data (Request Body))
+                    ! "%": Escape character
+
+                ? 3 characters reserved ar URLS
+                    1. "#" becomes %23
+                    2. " " becomes %20
+                    3. "?" becomes %3F
+
+        ? type="tel"
+            ? Advantages
+                On mobile devices, it brings up a numeric keyboard that includes symbols like (+ and #)
+
+            ? Disadvantages
+                - Accepts any text
+
+        ? type="file"
+            - Attributes
+                1. multiple
+                    - Enables users to select multiple files at once during the file selection process.
+
+                2. accept=""
+                    - It filters what is displayed in the file picker dialog.
+                    This is a soft restriction and does not perform actual validation on the server side.
+
+                    - "image/*"
+                        accepts only images with any extension (*) => all
+                    - "image/png, image/jpg"
+
+        ? type="radio"
+            - If the options are related, they must use the same name attribute. This ensures that only one option from the group can be selected at a time.
+                
+            - By default, the value of the radio button will be "on". It’s always better to explicitly set a value.
+
+            * Example:
+                <label>Your Gender</label>
+                <br>
+
+                <label for="m">Male</label>
+                <input type="radio" id="m" name="Gender" value="Male">
+                <br>
+
+                <label for="f">Female</label>
+                <input type="radio" id="f" name="Gender" value="Female">
+
+                ? All the radio buttons share the same name="Gender", meaning only one can be selected at a time.
+
+                ? Each radio button has a different value attribute ("Male", "Female"), so you can know which option was selected when submitting the form.
+
+        ? type="checkbox"
+            - If multiple checkboxes belong to the same group, they share the same name attribute
+
+            * Example
+                <label> Choose Languages You Know: </label>
+                <br>
+
+                <label for="html">HTML</label>
+                <input type="checkbox" name="languages" id="html" value="Html">
+                <br>
+                <label for="css">CSS</label>
+                <input type="checkbox" name="languages" id="css" value="Css">
+                <br>
+                <label for="js">JS</label>
+                <input type="checkbox" name="languages" id="js" value="Js">
+                    ? let say all of them are selected, what will be sent to the server:
+                        languages=Html&languages=Css&languages=Js
+
+                    ? so UNLIKE "radio" (where only one option can be selected at a time for the same name attribute) we can select multiple values
+
+        ? type="image"
+            - Is used to create an image that functions as a submit button in a form.
+            * Example
+                <input type="image" src="images/submit.png" alt="Submit image" width="80">
+
+
+    * select (different type of input)
+        ? If <option> tag does not have a value attribute, the text content of that <option> will be used as the value
+
+        ? <optgroup> element is used to group related options within a <select> dropdown, and it takes a label attribute to define the name of the group.
+
+    * TextArea
+        - It's like an input tag with type text but represents a multiple-lines
+        * Example
+            <textarea name="Text" rows="6" cols="20" placeholder="Enter your text here..." required></textarea>
+
+    * Input + Datalist
+        - allows users to either type a value or select one from a dropdown list (Doesn't restrict user input)
+        
+        * Example:
+            <input name="Country" list="countries">
+                ? list="id of datalist" attribute: links the input with datalist
+
+            <datalist id="countries">
+                <option value="Egypt">
+                <option value="Algeria">
+                <option value="USA">
+                <option value="England">
+                <option value="Germany">
+            </datalist>
+
+    * FieldSet
+        - Groups related elements together
+        - <legend>: defines a caption for the grouped elements
+
+        * Example:
+            <fieldset>
+            <legend>Personal</legend>
+
+            <label for="fn">First Name: </label>
+            <input type="text" name="FirstName" id="fn">
+            <br>
+
+            <label for="ln">Last Name: </label>
+            <input type="text" name="LastName" id="ln">
+            <br>
+
+            <label for="ag">Age: </label>
+            <input type="number" name="Age" id="ag">
+            </fieldset>
+    
+    * Extra attributes
+            1. checked
+                ? <input type="radio">, <input type="checkbox">
+            2. selected
+                ? <option>
+            3. disabled
+                ? <input>, <textarea>, <select>, <button>
+            4. readonly
+                ? <input>, <textarea>
+            5. placeholder
+                ? <input>, <textarea>
+            6. autocomplete
+                ? <input>, <textarea>
+            7. autofocus
+                ? <input>, <textarea>, <select>, <button>
+            8. multiple
+                ? <input type="file">, <select>
+            9. min/max
+                ? <input type="number">, <input type="range">, <input type="date">
+            10. minLength/maxLength 
+                ? <input type="text">, <textarea> 
+            11. required
+                ? <input>, <textarea>, <select>
+            12. pattern
+                ? <input type="text">, <input type="password">, <input type="email">
+            13. step
+                ? <input type="number">, <input type="range">, <input type="date">
+            14. accept
+                ? <input type="file">
+            15. novalidate
+                ? form 
+-->
+
+<!-- * Semantic Tags -->
+<!--
+    - The whole difference between semantic tags & <div> is semantic tags are meaningful to SEO
+
+    <header>
+        Header of the website (COMMON) || Header of a section
+
+    <nav>
+        Container of main links, Common used with Navbar
+
+    <section>
+        Main sections of the website (Independent/Self-contained) || Section of an <article>
+
+    <article>
+        * Example
+            <article>
+                <h3>Lorem ipsum dolor</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Pariatur, consectetur ut natus officiis ipsa
+                    consequuntur, odio nihil corporis tempore sint recusandae quidem fuga eos dolor quasi fugit sapiente
+                    numquam? Vitae!</p>
+            </article>
+
+            ? When we use <article> ?
+                If the content is self-contained or independent.
+        
+    <main>
+        - The body of the website.
+        - UNIQUE (Shouldn't be repeated).
+        - Contains All tags EXCEPT <nav>, <header>, <aside>, <footer>
+    
+
+    <aside>: Sidebar
+
+    <footer>
+        The footer of the website || footer of the section || footer of <article>
+
+    <figure> & <figcaption>
+        <figure>
+            <img src="" alt="">
+            <figcaption>
+                Lorem ipsum dolor sit amet.
+            </figcaption>
+        </figure>
+
+        INSTEAD OF
+        
+        <div>
+            <img src="" alt="">
+            <p>
+                Lorem ipsum dolor sit amet.
+            </p>
+        </div>
+-->
+
+<!-- * Head Tags -->
+<!--
+    [1] <link rel="" href="">
+        rel:
+            - stylesheet
+            - shortcut icon (favicon)
+
+    [2] <meta>
+        - Affects The SEO
+        meta:vp
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                - Fixes the responsive problems in small devices (Mobile)
+
+        meta:utf
+            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+                - Fixes the encoding of different languages
+
+            <meta charset="UTF-8"> IS NEWER VERSION
+
+        meta:kw (Is no longer useful)
+            <meta name="keywords" content="ecommerce,متجر الكترونى">
+        
+        meta-desc (Is Important)
+            <meta name="description" content="An E-commerce for selling electronics">
+
+        meta og (open graph)
+            - controls how content is displayed when shared on social media platforms
+                <meta property="og:title" content="Amazing Content Title">
+                <meta property="og:description" content="A brief description of what this content is about.">
+                <meta property="og:image" content="https://example.com/image.jpg">
+                <meta property="og:url" content="https://example.com/page">
+                <meta property="og:type" content="website">
+
+        meta author
+            <meta name="author" content="Nael Muhamed">
+
+    [3] <title>
+        - The title of the website, very important for SEO
+        - Appears at the tab name & clickable link in search engine results
+-->
+
+<!-- * DOCTYPE -->
+<!--
+    <!DOCTYPE html>
+    Importance:
+        1 => Renders the HTML document in the standard mode like:
+            - Dealing with <img> as an inline element (text-alignment)
+            - Case Sensitively
+            - Units of CSS must me specified
+        2 => Tells the browser to renders the html document as an HTML5
+        
+        3 => SEO & Accessibility (well-structured HTML)
+
+-->
+
+<!-- * Extras  -->
+<!--
+    ? tabindex
+        - Attribute in HTML to manage the order of focus when navigating through HTML elements using Tab key
+        - By default the browser gives tabindex to the interactive HTML tags like inputs & buttons 
+        Value
+            Positive
+                (tabindex="1", tabindex="2") the one with tabindex="1" will receive focus first (NOT RECOMMENDED).
+
+            Zero
+                To add the focus to an HTML element
+                HTML element with will receive focus in the order they appear in the DOM.
+
+            Negative
+                To remove the focus of an HTML element.
+
+    ? Quoting
+        Block
+            <blockquote>
+                "To be, or not to be, that is the question."
+                <cite>
+                    - William Shakespeare
+                </cite>
+            </blockquote>
+
+        Inline
+            <p>
+                Shakespeare once said,
+                <q>To be, or not to be, that is the question.</q>
+                <cite>- William Shakespeare</cite>
+            </p>
+
+-->
+
+<!-- ========================================== -->
