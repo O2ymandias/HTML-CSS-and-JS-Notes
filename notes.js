@@ -741,6 +741,22 @@
             ? What is the difference between mouseenter/mouseleave & mouseover/mouseout ?
                 The difference is how they handle event propagation, mouseenter/mouseleave don't bubble up, unlike mouseover/mouseout.
 
+            ? Important Events
+                (hashchange) event
+                    Fires when the fragment identifier (hash) of the URL changes.
+                    It does not reload the page.
+                    The event object contains:
+                        event.oldURL → The previous URL before the hash changed.
+                        event.newURL → The updated URL after the hash changed.
+
+                    When to Use hashchange?
+                        Implementing simple client-side routing.
+                        Detecting and responding to URL changes without reloading.
+
+                    We can also access the hash using (location.hash)
+
+
+
     * Dom Traversing
         Selecting elements relative to another element
         
