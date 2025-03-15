@@ -522,7 +522,7 @@
                     The HTML content as a string.
             )
 
-            - document.insertadjacentElement(position, element)
+            - document.insertAdjacentElement(position, element)
 
             - prepend(...nodes)
                 Inserts nodes before the first child of node.
@@ -866,6 +866,27 @@
             - In this way we are sure that DomContentLoaded event will fire after executing the script.
             - Scripts are executed in order.
             - This is overall the best way to load scripts (When order matters)
+
+    * Simulating Virtual DOM
+        1. document.createRange()
+            -> Creates a Range object, which is a portion of the DOM that can hold nodes and text.
+            -> Useful for selecting, inserting, or modifying DOM elements dynamically.
+
+        2. createContextualFragment(markupAsString)
+            -> Called on a Range object.
+            -> Converts a string of HTML markup into a DocumentFragment, which is a lightweight, in-memory DOM structure.
+            -> A DocumentFragment is detached from the main DOM, making it faster for batch modifications before inserting into the actual DOM.
+
+    * DOM Useful (Methods & Properties)
+        node.isEqualNode(anotherNode)
+            -> Returns true if the nodes are the same in terms of their type, attributes, and child nodes, or false otherwise.
+
+        nodeValue
+            Property gets or sets the value of a text node, comment node, or attribute node.
+            For element nodes, it returns null.
+
+        firstChild
+            Property that returns the first child node of a specified parent node, including text nodes, comment nodes, and element nodes.
 */
 
 // * Modern JIT Compilation Of JS
@@ -3006,7 +3027,7 @@
                 If catch block doesn't rethrow the error or return a Promise.reject(), the async function itself resolves with undefined.
 
 
-    * Running promises in parallel (Promise Combinators)
+    * Running promises in parallel (Promise Combinator)
         [1] Promise.all() 
             Returns a new Promise:
                 - Resolves with an array of the results of the input Promises in same order ONLY IF all of the provided Promises resolve.
@@ -3171,34 +3192,34 @@
                 const nael = new Person('Nael', 27);
                 nael instanceof Person; // true
 
-            ? What happens when we call CTOR with "new" operator?
+            ? What happens when we call constructor function with "new" operator?
                 "new" operator does the following:
                     [1] Create new empty object.
                     [2] Bind "this" keyword to the new empty object.
-                    [3] Executes the code inside the CTOR function.
-                    [4] Links the new object to the prototype property of CTOR (obj.__proto__ === CTOR.prototype).
+                    [3] Executes the code inside the constructor function.
+                    [4] Links the new object to the prototype property of constructor function (obj.__proto__ === constructor function.prototype).
                     [5] Returns the new object UNLESS we explicitly return something else.
 
             ? Prototype
                 CTOR.prototype
-                    - Every function (Including CTOR) has a special property called prototype.
-                    - It is an object used to define properties and methods that will be inherited by instances created by CTOR.
-                    - (CTOR.prototype) is NOT the prototype of CTOR (CTOR.prototype !== CTOR.__proto__)
-                    - CTOR.prototype is the prototype of instances created by CTOR. (obj.__proto__ === CTOR.prototype)
-                    - the prototype obj has a property "constructor" refers to the CTOR function (CTOR.prototype.constructor === CTOR)
+                    -> Every function (Including CTOR) has a special property called prototype.
+                    -> It is an object used to define properties and methods that will be inherited by instances created by CTOR.
+                    -> (CTOR.prototype) is NOT the prototype of CTOR (CTOR.prototype !== CTOR.__proto__)
+                    -> CTOR.prototype is the prototype of instances created by CTOR. (obj.__proto__ === CTOR.prototype)
+                    -> the prototype obj has a property "constructor" refers to the CTOR function (CTOR.prototype.constructor === CTOR)
 
                 obj.__proto__
-                    - Every JS object has an internal link to another object called "prototype" (obj.__proto__ === CTOR.prototype).
+                    -> Every JS object has an internal link to another object called "prototype" (obj.__proto__ === CTOR.prototype).
 
                 ? Important
                     CTOR.prototype itself is an object, it's created by the Object constructor (new Object()), so it's linked to Object.prototype (CTOR.prototype.__proto__ === Object.prototype)
                     Object.prototype is the root of the prototype chain so it's __proto__ is null (Object.prototype.__proto__ === null)
 
                 ? When you access a property of an object:
-                        The JS engine first checks if the property exists directly on the object.
-                        If not, JS looks up the prototype chain.
-                        If not anywhere in the prototype chain, undefined is returned.
-                        If the property is defined using a getter (get), the getter function is invoked.
+                        [1] The JS engine first checks if the property exists directly on the object.
+                        [2] If not, JS looks up the prototype chain.
+                        [3] If not anywhere in the prototype chain, undefined is returned.
+                        [4] If the property is defined using a getter (get), the getter function is invoked.
 
                 Example:
                     function Person(firstName, birthYear) {
@@ -3235,7 +3256,7 @@
         [2] ES6 Classes
             - Modern alternative to constructor function.
             - Behind the seen, it works EXACTLY the same as constructor function.
-            - ES6 classes are NOT like the traditional classes in C# or Java.
+            - ES6 classes are NOT like the traditional classes in the pure OOP languages like C# or Java.
 
             Example:
                 class Person {
@@ -3627,6 +3648,50 @@
 
                     "regenerator-runtime/runtime"
                         - Polyfills for async/await.
+
+*/
+
+// * Form Data
+/*
+    Allows you to collect and manipulate form input values, including file uploads. You do not need to explicitly set enctype="multipart/form-data" in the <form> tag when using FormData.
+
+    ? Example (Passing the Form Element Directly to the FormData Constructor)
+        When you pass a <form> element to FormData, it automatically collects input values based on their name attributes.
+        If there are inputs with no name attribute, they won’t be included.
+
+        <form id="myForm">
+            <input type="text" name="username" placeholder="Username">
+            <input type="email" name="email" placeholder="Email">
+            <input type="file" name="profilePic">
+            <button type="submit">Submit</button>
+        </form>
+
+        const form = document.getElementById("myForm");
+        const formData = new FormData(form)
+
+    ? Example (Using append() to Manually Add Form Data)
+        Doesn't require name attribute
+        <form>
+            <input id="userName" type="text" placeholder="Username">
+            <input id="email" type="email" placeholder="Email">
+            <input id="profilePic" type="file" >
+            <button type="submit">Submit</button>
+        </form>
+
+        const formData = new FormData()
+        formData.append("userName", document.getElementById("userName").value)
+        formData.append("email", document.getElementById("email").value)
+        formData.append("profilePic", document.getElementById("profilePic").value)
+
+    ? Reading the values of Form Data
+        for (let [key, value] of formData.entries()) 
+            console.log(key, value);
+        
+    ? Converting the entries obj to an array of entries
+        [...formData.entries()] -> Array of entries
+
+    ? Converting FormData entries to JSON
+        Object.fromEntries(formData.entries())
 
 */
 
