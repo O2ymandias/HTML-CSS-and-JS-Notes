@@ -3695,4 +3695,36 @@
 
 */
 
+// * History API
+/*
+    Allows you to manipulate the browser session history, enabling smooth navigation without page reload.
+    ? Methods
+        [1] window.history.pushState(state, title, url)
+            Adds a new entry to the browser's history stack.
+            Does not reload the page.
+            Example
+                window.history.pushState({ page: 1 }, "Title", "/new-page");
+
+        [2] window.history.replaceState(state, title, url)
+            Modifies the current history entry instead of adding a new one.
+            Example
+                window.history.replaceState({ page: 2 }, "Title", "/updated-page");
+
+        [3] window.history.back()
+            Navigates to the previous page in history (equivalent to the browser's back button).
+
+        [4] window.history.forward()
+            Navigates to the next page in history (equivalent to the browser's back button).
+
+        [5] window.history.go(n)
+            Moves forward (n > 0) or backward (n < 0) by n steps in history.
+            Example
+                history.go(-2); // Goes back two steps
+                history.go(1);  // Moves forward one step
+
+    ? popstate Event
+        The popstate event fires when the active history entry changes (e.g., when the user clicks the back or forward button).
+
+*/
+
 /////////////////////////////////////////////////////////
